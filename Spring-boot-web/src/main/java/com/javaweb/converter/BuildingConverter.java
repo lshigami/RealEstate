@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 public class BuildingConverter {
@@ -41,14 +42,11 @@ public class BuildingConverter {
         if(object.getId()!=null){
             buildingEntity.setId(object.getId());
         }
-        String typeCode = "";
-        for(int i=0; i<object.getTypeCode().size(); i++) {
-            typeCode += object.getTypeCode().get(i);
-            if (i < object.getTypeCode().size() - 1) {
-                typeCode += ",";
-            }
-        }
+        String typeCode = object.getTypeCode().stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining(","));
         buildingEntity.setType(typeCode);
+        buildingEntity.setBrokerageFee(object.getBrokerageFee());
         return buildingEntity;
     }
 

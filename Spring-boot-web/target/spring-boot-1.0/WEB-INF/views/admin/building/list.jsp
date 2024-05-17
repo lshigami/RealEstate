@@ -271,7 +271,7 @@
                                 <td>${item.rentArea}</td>
                                 <td>${item.rentPrice}</td>
                                 <td>${item.serviceFee}</td>
-                                <td>${item.floorArea}</td>
+                                <td>${item.brokerageFee}</td>
                                 <td>
                                     <div>
                                         <button class="btn btn-sm btn-success" title="Giao toà nhà"
