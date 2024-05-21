@@ -3,6 +3,7 @@ package com.javaweb.repository.custom.impl;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -85,11 +86,11 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom{
                         sql.append(" AND b.rentprice <= " + data);
                     }
                 }
-                if (fieldName.equals("typeCode") && builder.getTypeCode() != null && builder.getTypeCode().size() > 0) {
-                    for (String typeCode : builder.getTypeCode()) {
-                        sql.append(" AND b.type like N'%" + typeCode + "%' ");
-                    }
-                    //ANd b.type like('%TANG_TRET%') and b.type like('%NOi_THAT%')
+                if (fieldName.equals("typeCode") && builder.getTypeCode() != null && !builder.getTypeCode().isEmpty()) {
+                    String typeCodeCondition = builder.getTypeCode().stream()
+                            .map(typeCode -> " b.type like N'%" + typeCode + "%' ")
+                            .collect(Collectors.joining(" OR "));
+                    sql.append(" AND (").append(typeCodeCondition).append(") ");
                 }
             }
         } catch (Exception e) {

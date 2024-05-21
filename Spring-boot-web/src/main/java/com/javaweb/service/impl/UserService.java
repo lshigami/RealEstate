@@ -115,8 +115,6 @@ public class UserService implements IUserService {
                     check = true;
                     StaffResponseDTO staffResponseDTO = userConverter.convertToStaffResponseDTO(userEntity);
                     staffAssignment.add(staffResponseDTO);
-                    System.out.println("id here: " + staffResponseDTO.getStaffId());
-                    System.out.println(staffResponseDTO.getFullName());
                 }
             }
             if (!check) {

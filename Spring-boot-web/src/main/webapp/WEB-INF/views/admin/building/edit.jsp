@@ -197,6 +197,19 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="col-sm-3 no-padding-right">Hình đại diện</label>
+                                <input class="col-sm-3 no-padding-right" type="file" id="uploadImage"/>
+                                <div class="col-sm-9">
+                                    <c:if test="${not empty buildingEdit.image}">
+                                        <c:set var="image" value="/repository${buildingEdit.image}"/>
+                                        <img src="${image}" id="viewImage" width="300px" height="300px" style="margin-top: 50px">
+                                    </c:if>
+                                    <c:if test="${empty buildingEdit.image}">
+                                        <img src="/admin/image/default.png" id="viewImage" width="300px" height="300px">
+                                    </c:if>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-xs-3"></label>
                                 <div class="col-xs-9">
                                     <c:if test="${empty buildingEdit.id}" >
@@ -222,6 +235,8 @@
                                     </a>
                                 </div>
                             </div>
+
+
                         </form>
                     </div>
                 </form:form>
@@ -232,6 +247,8 @@
 </div><!-- /.page-content -->
 </div>
 <script>
+    var imageBase64 = '';
+    var imageName = '';
     $('#btnAddOrUpdateBuilding').click(function(){
         var data = {};
         var typeCode = [];
@@ -243,11 +260,18 @@
             else {
                 typeCode.push(it.value);
             }
+            if ('' !== imageBase64) {
+                data['imageBase64'] = imageBase64;
+                data['imageName'] = imageName;
+            }
+
         });
         data['id']= "${buildingEdit.id}";
         data['typeCode'] = typeCode;
         console.table(data);
         if (typeCode.length == 0) return alert("Loại toà nhà không được thiếu");
+        $('#loading_image').show();
+
         btnAddOrUpdate(data);
     });
     function btnAddOrUpdate(data) {
@@ -258,14 +282,49 @@
             contentType: "application/json",
             dataType: "text",
             success:(response) => {
+                // $('#loading_image').hide();
                 alert(response);
+                // showMessageConfirmation("Thành công", "Thao tác thành công!", "success", "/admin/building-edit-" + res.id);
                 window.location.replace("/admin/building-list");
             },
             error: function(response){
+                $('#loading_image').hide();
                 console.log("failed");
                 console.log(response);
+                // var redirectUrl = (null === buildingId) ? "" : "/admin/building-edit-" + {buildingId};
+                // showMessageConfirmation("Thất bại", "Đã có lỗi xảy ra! Vui lòng kiểm tra lại.", "warning", redirectUrl);
             }
         });
+    }
+
+
+
+
+    $("#cancelBtn").click(function () {
+        showAlertBeforeCancelForm(function() {
+            window.location.href = '/admin/building-list';
+        })
+    });
+
+    $('#uploadImage').change(function (event) {
+        var reader = new FileReader();
+        var file = $(this)[0].files[0];
+        reader.onload = function(e){
+            imageBase64 = e.target.result;
+            imageName = file.name; // ten hinh khong dau, khoang cach. vd: a-b-c
+        };
+        reader.readAsDataURL(file);
+        openImage(this, "viewImage");
+    });
+
+    function openImage(input, imageView) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#' +imageView).attr('src', reader.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
     }
 </script>
 </body>

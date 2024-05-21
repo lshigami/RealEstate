@@ -46,7 +46,6 @@ import java.util.List;
 
         @PostMapping
         public String addOrUpdateBuilding(@RequestBody BuildingDTO buildingDTO) {
-            System.out.println("SEXSS");
             System.out.println(buildingDTO.getId());
             buildingService.createBuilding(buildingDTO);
             return new String("Add OR Update Building Success");

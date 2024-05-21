@@ -35,6 +35,7 @@ public class BuildingDTO extends AbstractDTO{
     private String imageBase64;
     private String imageName;
 
+
     private Map<String,String> buildingDTOs = new HashMap<>();
 
     public Map<String, String> getBuildingDTOs() {

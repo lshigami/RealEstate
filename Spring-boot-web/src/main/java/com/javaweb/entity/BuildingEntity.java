@@ -18,10 +18,10 @@ public class BuildingEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "buildingEntity",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "buildingEntity",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     List<RentAreaEntity> areaEntities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "buildingEntity",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "buildingEntity",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     List<AssignmentBuilding> assignmentBuildings = new ArrayList<>();
 
     @Column(name = "name")
@@ -110,5 +110,8 @@ public class BuildingEntity extends BaseEntity {
 
     @Column(name = "managerphone")
     private String managerPhone;
+
+    @Column(name = "image")
+    private String image;
 
 }
