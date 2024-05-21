@@ -14,6 +14,7 @@ import com.javaweb.service.IBuildingService;
 import com.javaweb.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -39,7 +40,7 @@ import java.util.List;
 
         @GetMapping
         public List<BuildingSearchResponse> loadBuildings(@RequestParam BuildingSearchRequest buildingSearchRequest) {
-            List<BuildingSearchResponse> result = buildingService.queryBuildings(buildingSearchRequest);
+            List<BuildingSearchResponse> result = buildingService.queryBuildings(buildingSearchRequest, PageRequest.of(buildingSearchRequest.getPage() - 1, buildingSearchRequest.getMaxPageItems()));
             return result;
         }
 

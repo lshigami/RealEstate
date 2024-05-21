@@ -11,6 +11,7 @@ import javax.persistence.Query;
 import com.javaweb.entity.BuildingEntity;
 import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.utils.StringUtils;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.javaweb.repository.custom.BuildingRepositoryCustom;
@@ -99,15 +100,28 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom{
         }
     }
     @Override
-    public List<BuildingEntity> search(BuildingSearchRequest builder) {
+    public List<BuildingEntity> search(BuildingSearchRequest builder, Pageable pageable){
         StringBuilder sql = new StringBuilder(" SELECT DISTINCT b.* FROM BUILDING b ");
         joinWith(builder, sql);
         StringBuilder where = new StringBuilder(" WHERE 1=1 ");
         joinWhere(builder, where);
         sql.append(where);
+        sql.append(" LIMIT ").append(pageable.getPageSize()).append(" OFFSET ").append(pageable.getOffset());
         System.out.println(sql.toString());
         Query sqlnativeQuery = entityManager.createNativeQuery(sql.toString(), BuildingEntity.class);
         return sqlnativeQuery.getResultList();
+    }
+
+
+    @Override
+    public int countTotalItem(BuildingSearchRequest builder){
+        StringBuilder sql = new StringBuilder(" SELECT DISTINCT b.* FROM BUILDING b ");
+        joinWith(builder, sql);
+        StringBuilder where = new StringBuilder(" WHERE 1=1 ");
+        joinWhere(builder, where);
+        sql.append(where);
+        Query sqlnativeQuery = entityManager.createNativeQuery(sql.toString(), BuildingEntity.class);
+        return sqlnativeQuery.getResultList().size();
     }
 
 }

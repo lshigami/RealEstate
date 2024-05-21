@@ -20,6 +20,8 @@ import com.javaweb.utils.UploadFileUtils;
 import javassist.NotFoundException;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,8 +40,8 @@ public class BuildingServiceImpl implements IBuildingService {
     @Autowired
     private UploadFileUtils uploadFileUtils;
     @Override
-    public List<BuildingSearchResponse> queryBuildings(BuildingSearchRequest buildingSearchRequest) {
-        List<BuildingEntity> buildingEntities = buildingRepository.search(buildingSearchRequest);
+    public List<BuildingSearchResponse> queryBuildings(BuildingSearchRequest buildingSearchRequest, Pageable pageable) {
+        List<BuildingEntity> buildingEntities = buildingRepository.search(buildingSearchRequest,pageable);
         List<BuildingSearchResponse> result = new ArrayList<>();
         for (BuildingEntity buildingEntity : buildingEntities) {
             BuildingSearchResponse buildingSearchResponse = buildingConverter.convertToResponse(buildingEntity);
@@ -98,6 +100,13 @@ public class BuildingServiceImpl implements IBuildingService {
     @Transactional
     public void deleteBuilding(Long id) {
         buildingRepository.deleteById(id);
+    }
+
+
+
+    @Override
+    public int countTotalItem(BuildingSearchRequest buildingSearchRequest) {
+        return buildingRepository.countTotalItem(  buildingSearchRequest);
     }
 
 }

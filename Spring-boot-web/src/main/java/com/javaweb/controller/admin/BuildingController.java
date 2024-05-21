@@ -14,6 +14,7 @@ import com.javaweb.service.IUserService;
 import com.javaweb.utils.DisplayTagUtils;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -42,7 +43,11 @@ public class BuildingController {
         mav.addObject("typeCodes", typeCode.getTypeCode());
         //Xuong DB lay data len
         System.out.println(buildingService.toString());
-        List<BuildingSearchResponse> result = buildingService.queryBuildings(buildingSearchRequest);
+        List<BuildingSearchResponse> result = buildingService.queryBuildings(buildingSearchRequest, PageRequest.of(buildingSearchRequest.getPage() - 1, buildingSearchRequest.getMaxPageItems()));
+        buildingSearchRequest.setListResult(result);
+        int total=buildingService.countTotalItem(buildingSearchRequest);
+        buildingSearchRequest.setTotalItems(total);
+        System.out.println("total : "+total);
         mav.addObject("buildings", result);
         return mav;
     }

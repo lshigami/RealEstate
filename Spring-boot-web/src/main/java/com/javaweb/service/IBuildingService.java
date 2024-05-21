@@ -4,15 +4,18 @@ import com.javaweb.entity.BuildingEntity;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.model.response.BuildingSearchResponse;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 public interface IBuildingService {
-    List<BuildingSearchResponse> queryBuildings(BuildingSearchRequest buildingSearchRequest);
+    List<BuildingSearchResponse> queryBuildings(BuildingSearchRequest buildingSearchRequest, Pageable pageable);
 
     void createBuilding(BuildingDTO buildingDTO);
 
     void deleteBuilding(Long id);
 
     public BuildingEntity findBuildingById(Long id);
+
+    int countTotalItem(BuildingSearchRequest buildingSearchRequest);
 }
