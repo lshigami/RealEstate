@@ -17,10 +17,8 @@ import com.javaweb.repository.BuildingRepository;
 import com.javaweb.repository.RentAreaRepository;
 import com.javaweb.service.IBuildingService;
 import com.javaweb.utils.UploadFileUtils;
-import javassist.NotFoundException;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -79,7 +77,6 @@ public class BuildingServiceImpl implements IBuildingService {
             rentAreaEntities.add(rentAreaEntity);
             rentAreaRepository.save(rentAreaEntity);
         }
-
     }
 
     private void saveThumbnail(BuildingDTO buildingDTO, BuildingEntity buildingEntity) {

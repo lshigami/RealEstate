@@ -6,7 +6,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -103,7 +102,7 @@ public class BuildingEntity extends BaseEntity {
     private String map;
 
     @Column(name = "avatar")
-    private String avatar;
+    private String image;
 
     @Column(name = "managername")
     private String managerName;
@@ -111,7 +110,5 @@ public class BuildingEntity extends BaseEntity {
     @Column(name = "managerphone")
     private String managerPhone;
 
-    @Column(name = "image")
-    private String image;
 
 }
