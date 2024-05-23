@@ -1,1 +1,1 @@
-{"__version__":1,"totalSize":6803,"count":4,"data":{"BaseEntity.java":[0,1885],"RoleEntity.java":[0,1404],"UserEntity.java":[0,2559],"UserRoleEntity.java":[0,955]}}
+{"__version__":1,"totalSize":10898,"count":7,"data":{"AssignmentBuilding.java":[0,560],"BaseEntity.java":[0,1885],"BuildingEntity.java":[0,2782],"RentAreaEntity.java":[0,753],"RoleEntity.java":[0,1404],"UserEntity.java":[0,2559],"UserRoleEntity.java":[0,955]}}

@@ -61,18 +61,19 @@ public class BuildingServiceImpl implements IBuildingService {
         saveThumbnail(buildingDTO, buildingEntity);
 //        buildingRepository.save(buildingEntity);
 //        rentAreaRepository.deleteAllByBuildingEntity(buildingEntity);
-        if(buildingDTO.getRentArea()==null || buildingDTO.getRentArea().isEmpty()){
-            return;
-        }
         List<RentAreaEntity> rentAreaEntities = new ArrayList<>();
-        List<String>rentAreaString= Arrays.asList(buildingDTO.getRentArea().split(","));
-        for (String rentArea : rentAreaString) {
-            RentAreaEntity rentAreaEntity = new RentAreaEntity();
-            rentAreaEntity.setValue(rentArea);
-            rentAreaEntity.setBuildingEntity(buildingEntity);
-            rentAreaEntities.add(rentAreaEntity);
+
+        if(buildingDTO.getRentArea()!=null && !buildingDTO.getRentArea().isEmpty()){
+            List<String>rentAreaString= Arrays.asList(buildingDTO.getRentArea().split(","));
+            for (String rentArea : rentAreaString) {
+                RentAreaEntity rentAreaEntity = new RentAreaEntity();
+                rentAreaEntity.setValue(rentArea);
+                rentAreaEntity.setBuildingEntity(buildingEntity);
+                rentAreaEntities.add(rentAreaEntity);
 //            rentAreaRepository.save(rentAreaEntity);
+            }
         }
+
         buildingEntity.setAreaEntities(rentAreaEntities);
         buildingRepository.save(buildingEntity);
 
