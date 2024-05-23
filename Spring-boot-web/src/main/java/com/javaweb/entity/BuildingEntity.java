@@ -17,11 +17,14 @@ public class BuildingEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "buildingEntity",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "buildingEntity",fetch = FetchType.LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
     List<RentAreaEntity> areaEntities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "buildingEntity",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    List<AssignmentBuilding> assignmentBuildings = new ArrayList<>();
+//    @OneToMany(mappedBy = "buildingEntity",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+//    List<AssignmentBuilding> assignmentBuildings = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "buildingEntities",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<UserEntity> userEntities = new ArrayList<>();
 
     @Column(name = "name")
     private String name;

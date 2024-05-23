@@ -1,11 +1,16 @@
 package com.javaweb.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "user")
+@Getter
+@Setter
 public class UserEntity extends BaseEntity {
 
     private static final long serialVersionUID = -4988455421375043688L;
@@ -36,16 +41,24 @@ public class UserEntity extends BaseEntity {
     private List<RoleEntity> roles = new ArrayList<>();
 
 
-    @OneToMany(mappedBy="staffs", fetch = FetchType.LAZY)
-    private List<AssignmentBuilding> assignmentBuildingEntities = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name="assignmentbuilding",
+            joinColumns=@JoinColumn(name="staffid"),
+            inverseJoinColumns=@JoinColumn(name="buildingid")
+    )
+    private List<BuildingEntity> buildingEntities = new ArrayList<>();
 
-    public List<AssignmentBuilding> getAssignmentBuildingEntities() {
-        return assignmentBuildingEntities;
-    }
-
-    public void setAssignmentBuildingEntities(List<AssignmentBuilding> assignmentBuildingEntities) {
-        this.assignmentBuildingEntities = assignmentBuildingEntities;
-    }
+//    @OneToMany(mappedBy="staffs", fetch = FetchType.LAZY)
+//    private List<AssignmentBuilding> assignmentBuildingEntities = new ArrayList<>();
+//
+//    public List<AssignmentBuilding> getAssignmentBuildingEntities() {
+//        return assignmentBuildingEntities;
+//    }
+//
+//    public void setAssignmentBuildingEntities(List<AssignmentBuilding> assignmentBuildingEntities) {
+//        this.assignmentBuildingEntities = assignmentBuildingEntities;
+//    }
 //    @OneToMany(mappedBy="users", fetch = FetchType.LAZY)
 //    private List<UserRoleEntity> userRoleEntities = new ArrayList<>();
 

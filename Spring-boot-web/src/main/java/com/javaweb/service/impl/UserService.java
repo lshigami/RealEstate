@@ -3,6 +3,7 @@ package com.javaweb.service.impl;
 import com.javaweb.constant.SystemConstant;
 import com.javaweb.converter.UserConverter;
 import com.javaweb.entity.AssignmentBuilding;
+import com.javaweb.entity.BuildingEntity;
 import com.javaweb.model.dto.AssignmentBuildingDTO;
 import com.javaweb.model.dto.PasswordDTO;
 import com.javaweb.model.dto.UserDTO;
@@ -108,11 +109,19 @@ public class UserService implements IUserService {
         //Lấy tất cả nhân viên quản lý toà nhà có giá trị id gửi về List<UserEntity> userEntities
         List<StaffResponseDTO> staffAssignment = new ArrayList<>();
         for (UserEntity userEntity : userEntities) {
-            List<AssignmentBuilding> assignmentBuildings = userEntity.getAssignmentBuildingEntities();
+//            List<AssignmentBuilding> assignmentBuildings = userEntity.getAssignmentBuildingEntities();
+            List<BuildingEntity>buildingEntities=userEntity.getBuildingEntities();
             boolean check = false;
-            for (AssignmentBuilding assignmentBuilding : assignmentBuildings) {
-                if (assignmentBuilding.getBuildingEntity().getId().equals(id)) {
-                    check = true;
+//            for (AssignmentBuilding assignmentBuilding : assignmentBuildings) {
+//                if (assignmentBuilding.getBuildingEntity().getId().equals(id)) {
+//                    check = true;
+//                    StaffResponseDTO staffResponseDTO = userConverter.convertToStaffResponseDTO(userEntity);
+//                    staffAssignment.add(staffResponseDTO);
+//                }
+//            }
+            for(BuildingEntity buildingEntity:buildingEntities){
+                if(buildingEntity.getId().equals(id)){
+                    check=true;
                     StaffResponseDTO staffResponseDTO = userConverter.convertToStaffResponseDTO(userEntity);
                     staffAssignment.add(staffResponseDTO);
                 }

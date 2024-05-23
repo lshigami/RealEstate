@@ -58,13 +58,11 @@ public class BuildingServiceImpl implements IBuildingService {
     public void createBuilding(BuildingDTO buildingDTO) {
         BuildingEntity buildingEntity = buildingConverter.convertToEntity(buildingDTO);
         if (buildingDTO.getId() != null) { // update
-            System.out.println("ID HERE");
-            System .out.println(buildingDTO.getId());
             buildingEntity.setImage(buildingRepository.findById(buildingDTO.getId()).get().getImage());
         }
         saveThumbnail(buildingDTO, buildingEntity);
-        buildingRepository.save(buildingEntity);
-        rentAreaRepository.deleteAllByBuildingEntity(buildingEntity);
+//        buildingRepository.save(buildingEntity);
+//        rentAreaRepository.deleteAllByBuildingEntity(buildingEntity);
         if(buildingDTO.getRentArea()==null || buildingDTO.getRentArea().isEmpty()){
             return;
         }
@@ -75,8 +73,11 @@ public class BuildingServiceImpl implements IBuildingService {
             rentAreaEntity.setValue(rentArea);
             rentAreaEntity.setBuildingEntity(buildingEntity);
             rentAreaEntities.add(rentAreaEntity);
-            rentAreaRepository.save(rentAreaEntity);
+//            rentAreaRepository.save(rentAreaEntity);
         }
+        buildingEntity.setAreaEntities(rentAreaEntities);
+        buildingRepository.save(buildingEntity);
+
     }
 
     private void saveThumbnail(BuildingDTO buildingDTO, BuildingEntity buildingEntity) {
