@@ -1,1 +1,0 @@
-{"__version__":1,"totalSize":127526,"count":54,"data":{"api":[1,8190],"config":[1,10457],"constant":[1,1105],"controller":[1,13776],"converter":[1,2394],"entity":[1,7973],"enums":[1,4219],"exception":[1,399],"model":[1,31601],"repository":[1,13931],"security":[1,4888],"service":[1,17814],"SpringBootWebApplication.class":[0,1447],"utils":[1,9332]}}

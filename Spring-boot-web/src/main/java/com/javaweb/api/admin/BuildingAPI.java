@@ -1,7 +1,6 @@
 package com.javaweb.api.admin;
 
 import com.javaweb.converter.UserConverter;
-import com.javaweb.entity.AssignmentBuilding;
 import com.javaweb.entity.UserEntity;
 import com.javaweb.model.dto.AssignmentBuildingDTO;
 import com.javaweb.model.dto.BuildingDTO;

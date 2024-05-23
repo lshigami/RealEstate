@@ -3,6 +3,7 @@ package com.javaweb.service.impl;
 import com.javaweb.converter.BuildingConverter;
 import com.javaweb.entity.BuildingEntity;
 import com.javaweb.entity.RentAreaEntity;
+import com.javaweb.entity.UserEntity;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.model.response.BuildingSearchResponse;
@@ -12,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.javaweb.repository.AssignmentBuildingRepository;
 import com.javaweb.repository.BuildingRepository;
 import com.javaweb.repository.RentAreaRepository;
 import com.javaweb.service.IBuildingService;
@@ -30,8 +30,6 @@ public class BuildingServiceImpl implements IBuildingService {
     private BuildingRepository buildingRepository;
     @Autowired
     private RentAreaRepository rentAreaRepository;
-    @Autowired
-    private AssignmentBuildingRepository assignmentBuildingRepository;
     @Autowired
     private BuildingConverter buildingConverter;
 
@@ -97,6 +95,13 @@ public class BuildingServiceImpl implements IBuildingService {
     @Override
     @Transactional
     public void deleteBuilding(Long id) {
+        BuildingEntity buildingEntity = buildingRepository.findById(id).get();
+        for(UserEntity userEntity: buildingEntity.getUserEntities()){
+            userEntity.getBuildingEntities().remove(buildingEntity);
+        }
+        buildingEntity.setUserEntities(new ArrayList<UserEntity>());
+
+
         buildingRepository.deleteById(id);
     }
 
