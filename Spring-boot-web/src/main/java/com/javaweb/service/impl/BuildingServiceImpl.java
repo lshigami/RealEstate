@@ -59,10 +59,7 @@ public class BuildingServiceImpl implements IBuildingService {
             buildingEntity.setImage(buildingRepository.findById(buildingDTO.getId()).get().getImage());
         }
         saveThumbnail(buildingDTO, buildingEntity);
-//        buildingRepository.save(buildingEntity);
-//        rentAreaRepository.deleteAllByBuildingEntity(buildingEntity);
         List<RentAreaEntity> rentAreaEntities = new ArrayList<>();
-
         if(buildingDTO.getRentArea()!=null && !buildingDTO.getRentArea().isEmpty()){
             List<String>rentAreaString= Arrays.asList(buildingDTO.getRentArea().split(","));
             for (String rentArea : rentAreaString) {
@@ -70,10 +67,8 @@ public class BuildingServiceImpl implements IBuildingService {
                 rentAreaEntity.setValue(rentArea);
                 rentAreaEntity.setBuildingEntity(buildingEntity);
                 rentAreaEntities.add(rentAreaEntity);
-//            rentAreaRepository.save(rentAreaEntity);
             }
         }
-
         buildingEntity.setAreaEntities(rentAreaEntities);
         buildingRepository.save(buildingEntity);
 
@@ -96,13 +91,6 @@ public class BuildingServiceImpl implements IBuildingService {
     @Override
     @Transactional
     public void deleteBuilding(Long id) {
-        BuildingEntity buildingEntity = buildingRepository.findById(id).get();
-        for(UserEntity userEntity: buildingEntity.getUserEntities()){
-            userEntity.getBuildingEntities().remove(buildingEntity);
-        }
-        buildingEntity.setUserEntities(new ArrayList<UserEntity>());
-
-
         buildingRepository.deleteById(id);
     }
 

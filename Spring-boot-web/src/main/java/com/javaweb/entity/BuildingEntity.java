@@ -23,7 +23,12 @@ public class BuildingEntity extends BaseEntity {
 //    @OneToMany(mappedBy = "buildingEntity",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 //    List<AssignmentBuilding> assignmentBuildings = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "buildingEntities",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "assignmentbuilding",
+            joinColumns = @JoinColumn(name = "buildingid"),
+            inverseJoinColumns = @JoinColumn(name = "staffid")
+    )
     private List<UserEntity> userEntities = new ArrayList<>();
 
     @Column(name = "name")

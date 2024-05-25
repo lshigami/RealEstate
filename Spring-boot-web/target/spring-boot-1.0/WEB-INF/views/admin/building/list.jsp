@@ -74,12 +74,6 @@
                                             <div class="col-xs-12">
                                                 <div class="col-xs-2">
                                                     <label>Quận hiện có</label>
-<%--                                                    <select class="form-control" name="district">--%>
-<%--                                                        <option value="">--Chọn Quận--</option>--%>
-<%--                                                        <option value="QUAN_1">Quận 1</option>--%>
-<%--                                                        <option value="QUAN_2">Quận 2</option>--%>
-<%--                                                        <option value="QUAN_3">Quận 3</option>--%>
-<%--                                                    </select>--%>
                                                     <form:select path="district" class="form-control">
                                                         <form:option value="" label="--Chọn Quận--"></form:option>
                                                         <form:options items = "${districtCode}"/>
@@ -87,7 +81,6 @@
                                                 </div>
                                                 <div class="col-xs-5">
                                                     <label >Phường</label>
-<%--                                                    <input type="text" class="form-control" name="ward" value="${modelSearch.ward}">--%>
                                                     <form:input class="form-control" path="ward" />
                                                 </div>
                                                 <div class="col-xs-5">

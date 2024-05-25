@@ -102,19 +102,10 @@ public class UserService implements IUserService {
     @Override
     public  List<StaffResponseDTO> getStaffsByBuildingId(Long id) {
         List<UserEntity> userEntities = userRepository.findByStatusAndRoles_Code(1, "STAFF");
-        //Lấy tất cả nhân viên quản lý toà nhà có giá trị id gửi về List<UserEntity> userEntities
         List<StaffResponseDTO> staffAssignment = new ArrayList<>();
         for (UserEntity userEntity : userEntities) {
-//            List<AssignmentBuilding> assignmentBuildings = userEntity.getAssignmentBuildingEntities();
             List<BuildingEntity>buildingEntities=userEntity.getBuildingEntities();
             boolean check = false;
-//            for (AssignmentBuilding assignmentBuilding : assignmentBuildings) {
-//                if (assignmentBuilding.getBuildingEntity().getId().equals(id)) {
-//                    check = true;
-//                    StaffResponseDTO staffResponseDTO = userConverter.convertToStaffResponseDTO(userEntity);
-//                    staffAssignment.add(staffResponseDTO);
-//                }
-//            }
             for(BuildingEntity buildingEntity:buildingEntities){
                 if(buildingEntity.getId().equals(id)){
                     check=true;
@@ -227,50 +218,14 @@ public class UserService implements IUserService {
     @Transactional
     @Override
     public void updateAssignmentBuilding(AssignmentBuildingDTO assignmentBuildingDTO) {
-//        // Delete all existing assignments of the building
-//        List<AssignmentBuilding> existingAssignments = assignmentBuildingRepository.findByBuildingEntity(buildingRepository.findById(assignmentBuildingDTO.getBuildingId()).get());
-//        assignmentBuildingRepository.deleteAll(existingAssignments);
-//
-//        // Assign the building to new staffs
-//        for (Long staffId : assignmentBuildingDTO.getStaffs()) {
-//            AssignmentBuilding newAssignment = new AssignmentBuilding();
-//            newAssignment.setBuildingEntity(buildingRepository.findById(assignmentBuildingDTO.getBuildingId()).get());
-//            newAssignment.setStaffs(userRepository.findById(staffId).get());
-//            assignmentBuildingRepository.save(newAssignment);
-//        }
         BuildingEntity buildingEntity = buildingRepository.findById(assignmentBuildingDTO.getBuildingId()).get();
-        List<UserEntity>oldUserEntities=buildingEntity.getUserEntities();
-        for(UserEntity userEntity:oldUserEntities){
-            List<BuildingEntity> buildingEntities = userEntity.getBuildingEntities();
-            buildingEntities.remove(buildingEntity);
-            userEntity.setBuildingEntities(buildingEntities);
-            userRepository.save(userEntity);
-        }
         List<UserEntity> userEntities = new ArrayList<>();
         for (Long staffId : assignmentBuildingDTO.getStaffs()) {
             UserEntity userEntity = userRepository.findById(staffId).get();
             userEntities.add(userEntity);
         }
         buildingEntity.setUserEntities(userEntities);
-
-        for(UserEntity userEntity:userEntities){
-            List<BuildingEntity> buildingEntities = userEntity.getBuildingEntities();
-            boolean find=false;
-            for(BuildingEntity buildingEntity1:buildingEntities){
-                if(buildingEntity1.getId().equals(assignmentBuildingDTO.getBuildingId())){
-                    find=true;
-                    break;
-                }
-            }
-            if(find==false){
-                buildingEntities.add(buildingEntity);
-                userEntity.setBuildingEntities(buildingEntities);
-                userRepository.save(userEntity);
-            }
-        }
-
         buildingRepository.save(buildingEntity);
-
     }
 
 }
