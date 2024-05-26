@@ -93,9 +93,7 @@ public class BuildingServiceImpl implements IBuildingService {
     @Override
     @Transactional
     public void deleteBuilding(List<Long> ids) {
-        for (Long id : ids) {
-            buildingRepository.deleteById(id);
-        }
+        buildingRepository.deleteByIdIn(ids);
     }
 
 
