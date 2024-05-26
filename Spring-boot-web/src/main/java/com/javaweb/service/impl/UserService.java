@@ -219,11 +219,7 @@ public class UserService implements IUserService {
     @Override
     public void updateAssignmentBuilding(AssignmentBuildingDTO assignmentBuildingDTO) {
         BuildingEntity buildingEntity = buildingRepository.findById(assignmentBuildingDTO.getBuildingId()).get();
-        List<UserEntity> userEntities = new ArrayList<>();
-        for (Long staffId : assignmentBuildingDTO.getStaffs()) {
-            UserEntity userEntity = userRepository.findById(staffId).get();
-            userEntities.add(userEntity);
-        }
+        List<UserEntity> userEntities = userRepository.findByIdIn(assignmentBuildingDTO.getStaffs() );
         buildingEntity.setUserEntities(userEntities);
         buildingRepository.save(buildingEntity);
     }

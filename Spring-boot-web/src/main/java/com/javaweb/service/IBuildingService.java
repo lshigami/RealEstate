@@ -13,7 +13,7 @@ public interface IBuildingService {
 
     void createBuilding(BuildingDTO buildingDTO);
 
-    void deleteBuilding(Long id);
+    void deleteBuilding(List<Long> ids);
 
     public BuildingEntity findBuildingById(Long id);
 

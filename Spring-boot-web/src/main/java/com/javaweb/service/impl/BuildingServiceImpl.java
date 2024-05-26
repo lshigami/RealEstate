@@ -57,6 +57,8 @@ public class BuildingServiceImpl implements IBuildingService {
         BuildingEntity buildingEntity = buildingConverter.convertToEntity(buildingDTO);
         if (buildingDTO.getId() != null) { // update
             buildingEntity.setImage(buildingRepository.findById(buildingDTO.getId()).get().getImage());
+            List<UserEntity> userEntities = buildingRepository.findById(buildingDTO.getId()).get().getUserEntities();
+            buildingEntity.setUserEntities(userEntities);
         }
         saveThumbnail(buildingDTO, buildingEntity);
         List<RentAreaEntity> rentAreaEntities = new ArrayList<>();
@@ -90,8 +92,10 @@ public class BuildingServiceImpl implements IBuildingService {
     }
     @Override
     @Transactional
-    public void deleteBuilding(Long id) {
-        buildingRepository.deleteById(id);
+    public void deleteBuilding(List<Long> ids) {
+        for (Long id : ids) {
+            buildingRepository.deleteById(id);
+        }
     }
 
 
