@@ -9,13 +9,14 @@ import com.javaweb.enums.typeCode;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.model.response.BuildingSearchResponse;
+import com.javaweb.security.utils.SecurityUtils;
 import com.javaweb.service.IBuildingService;
 import com.javaweb.service.IUserService;
 import com.javaweb.utils.DisplayTagUtils;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -35,15 +36,24 @@ public class BuildingController {
     private BuildingConverter buildingConverter;
 
     @GetMapping(value = "/admin/building-list")
-    public ModelAndView buildingList(@ModelAttribute("modelSearch") BuildingSearchRequest buildingSearchRequest, HttpServletRequest request){
+    public ModelAndView buildingList(@ModelAttribute("modelSearch") BuildingSearchRequest buildingSearchRequest, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("admin/building/list");
         DisplayTagUtils.of(request, buildingSearchRequest);
         mav.addObject("staffs", userService.getStaffs());
         mav.addObject("districtCode", districtCode.district());
         mav.addObject("typeCodes", typeCode.getTypeCode());
         //Xuong DB lay data len
-        System.out.println(buildingService.toString());
-        List<BuildingSearchResponse> result = buildingService.queryBuildings(buildingSearchRequest, PageRequest.of(buildingSearchRequest.getPage() - 1, buildingSearchRequest.getMaxPageItems()));
+        List<BuildingSearchResponse> result = new ArrayList<>();
+        if(SecurityUtils.getAuthorities().contains("ROLE_STAFF")){
+            Long staffId = SecurityUtils.getPrincipal().getId();
+            buildingSearchRequest.setStaffId(staffId);
+            result = buildingService.queryBuildings(buildingSearchRequest, PageRequest.of(buildingSearchRequest.getPage() - 1, buildingSearchRequest.getMaxPageItems()));
+        }else{
+            result = buildingService.queryBuildings(buildingSearchRequest, PageRequest.of(buildingSearchRequest.getPage() - 1, buildingSearchRequest.getMaxPageItems()));
+        }
+
+//        System.out.println(buildingService.toString());
+//        List<BuildingSearchResponse> result = buildingService.queryBuildings(buildingSearchRequest, PageRequest.of(buildingSearchRequest.getPage() - 1, buildingSearchRequest.getMaxPageItems()));
         buildingSearchRequest.setListResult(result);
         int total=buildingService.countTotalItem(buildingSearchRequest);
         buildingSearchRequest.setTotalItems(total);
@@ -76,7 +86,6 @@ public class BuildingController {
         return mav;
     }
 }
-
 
 
 
