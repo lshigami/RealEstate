@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@include file="/common/taglib.jsp"%>
+<c:url var="webcontacturl" value="/lien-he"/>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -12,46 +13,6 @@
 </head>
 <body>
 <div class="page-wrapper">
-    <%--<header>--%>
-        <%--<!-- MENU  -->--%>
-        <%--<div class="p-4">--%>
-            <%--<div class="row navbar">--%>
-                <%--<div class="col-12 col-md-3">--%>
-                    <%--<div class="logo">--%>
-                        <%--<a href="">--%>
-                            <%--<img src="https://bizweb.dktcdn.net/100/328/362/themes/894751/assets/logo.png?1676257083798"--%>
-                                 <%--alt="">--%>
-                        <%--</a>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-                <%--<div class="col-12 col-md-6">--%>
-                    <%--<div class="item-menu">--%>
-                        <%--<div class="nav nav1">--%>
-                            <%--<div class="nav-item p-2"><a class="nav-item-link" href="/trang-chu"><span>Trang--%>
-                                            <%--chủ</span></a></div>--%>
-                            <%--<div class="nav-item p-2"><a class="nav-item-link" href="/gioi-thieu"><span>Giới--%>
-                                            <%--thiệu</span></a></div>--%>
-                            <%--<div class="nav-item p-2"><a class="nav-item-link" href="/san-pham"><span>Sản phẩm--%>
-                                        <%--</span></a></div>--%>
-                            <%--<div class="nav-item p-2"><a class="nav-item-link" href="/tin-tuc"><span>Tin--%>
-                                            <%--tức</span></a></div>--%>
-                            <%--<div class="nav-item p-2">--%>
-                                <%--<a class="nav-item-link" href="/lien-he">--%>
-                                    <%--<span style="color: var(--primary-color);">Liên hệ</span>--%>
-                                <%--</a>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-                <%--<div class="col-12 col-md-3">--%>
-                    <%--<button class="btn btn-primary px-4">--%>
-                        <%--Liên hệ tư vấn--%>
-                    <%--</button>--%>
-                <%--</div>--%>
-            <%--</div>--%>
-        <%--</div>--%>
-    <%--</header>--%>
-    <!-- INTRO  -->
     <div class="intro text-center mb-5">
         <div class="title-page">Liên hệ</div>
         <div class="row">
@@ -115,22 +76,23 @@
                     </div>
                 </div>
                 <div class="col-12 col-md-6">
+
                     <h2 class="title-lienhe"><strong>Liên hệ với chúng tôi</strong></h2>
-                    <form>
+                    <form:form id="listForm" action="${webcontacturl}" method="POST">
                         <div class="row">
                             <div class="col">
-                                <input type="text" class="form-control" placeholder="Họ và tên">
+                                <input type="text" class="form-control" name = "fullName" placeholder="Họ và tên">
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" placeholder="Email">
+                                <input type="text" class="form-control" name = "email" placeholder="Email">
                             </div>
                         </div>
-                        <input type="text" class="form-control mt-3" placeholder="Số điện thoại">
-                        <input type="text" class="form-control mt-3" placeholder="Nội dung">
-                        <button class="btn btn-primary px-4 mt-3">
+                        <input type="text" class="form-control mt-3" name = "customerPhone" placeholder="Số điện thoại">
+                        <input type="text" class="form-control mt-3" name = "note" placeholder="Nội dung">
+                        <button type="button" class="btn btn-primary px-4 mt-3" id ="addCustomer">
                             Gửi liên hệ
                         </button>
-                    </form>
+                    </form:form>
                 </div>
             </div>
         </div>
@@ -235,5 +197,42 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js" integrity="sha512-CwHUCK55pONjDxvPZQeuwKpxos8mPyEv9gGuWC8Vr0357J2uXg1PycGDPND9EgdokSFTG6kgSApoDj9OM22ksw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="text/javascript"></script>
+<script>
+    $('#addCustomer').click(function (e) {
+        e.preventDefault();
+        var fullname = $('input[name="fullName"]').val();
+        var email = $('input[name="email"]').val();
+        var phone = $('input[name="customerPhone"]').val();
+        var demand = $('input[name="note"]').val();
+        var formData = {
+            fullName: fullname,
+            email: email,
+            customerPhone: phone,
+            note: demand
+        };
+
+        addInfo(formData);
+    });
+
+    function addInfo(formData)
+    {
+        $.ajax({
+            url: "${webcontacturl}",
+            type: 'POST',
+            data: JSON.stringify(formData),
+            contentType: "application/json",
+            success: function(response) {
+                location.reload();
+                alert("Gửi thông tin liên hệ thành công")
+            },
+            error: function(xhr, status, error) {
+                location.reload();
+            }
+        });
+    }
+
+</script>
 </body>
 </html>
