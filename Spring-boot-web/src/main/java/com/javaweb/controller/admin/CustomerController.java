@@ -55,6 +55,7 @@ public class CustomerController
 
         mav.addObject("customerList", customerSearchResponse);
         mav.addObject("listStaffs", userService.getStaffs());
+        mav.addObject("status", Status.type());
         return mav;
     }
 

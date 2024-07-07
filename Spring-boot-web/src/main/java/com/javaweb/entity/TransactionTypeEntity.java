@@ -1,8 +1,14 @@
 package com.javaweb.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
+
+@Getter
+@Setter
 @Table(name = "transaction")
 public class TransactionTypeEntity extends BaseEntity
 {
@@ -20,37 +26,4 @@ public class TransactionTypeEntity extends BaseEntity
     @JoinColumn(name = "customerid")
     private CustomerEntity customer;
 
-    @Override
-    public Long getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
-
-    public CustomerEntity getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(CustomerEntity customer) {
-        this.customer = customer;
-    }
 }

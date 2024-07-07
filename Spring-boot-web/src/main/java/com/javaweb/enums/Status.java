@@ -1,5 +1,6 @@
 package com.javaweb.enums;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -18,7 +19,7 @@ public enum Status
 
     public static Map<String, String> type()
     {
-        Map<String, String> status = new TreeMap<>();
+        Map<String, String> status = new LinkedHashMap<>();
         for(Status it : Status.values())
         {
             status.put(it.toString(), it.statusName);

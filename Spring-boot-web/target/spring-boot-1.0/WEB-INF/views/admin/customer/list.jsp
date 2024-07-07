@@ -66,25 +66,26 @@
                                     <div class="row">
                                         <div class="form-group">
                                             <div class="col-xs-12">
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-4">
                                                     <label class="name">Tên khách hàng</label>
                                                     <form:input class="form-control" path="fullName"/>
                                                 </div>
 
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-4">
                                                     <label class="name">Số điện thoại</label>
                                                     <form:input type="number" class="form-control" path="phone"/>
+                                                </div>
+
+                                                <div class="col-sm-4">
+                                                    <label class="name">Email</label>
+                                                    <form:input class="form-control" path="email"/>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <div class="col-xs-12">
-                                                <div class="col-sm-6">
-                                                    <label class="name">Email</label>
-                                                    <form:input class="form-control" path="email"/>
-                                                </div>
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-4">
                                                     <security:authorize access="hasRole('MANAGER')">
                                                         <label class="name">Nhân viên</label>
                                                         <form:select class="form-control" path="staffId">
@@ -92,7 +93,13 @@
                                                             <form:options items="${listStaffs}"></form:options>
                                                         </form:select>
                                                     </security:authorize>
-
+                                                </div>
+                                                <div class="col-sm-4">
+                                                        <label class="name">Tình trạng</label>
+                                                        <form:select class="form-control" path="status">
+                                                            <form:option value="">---Chọn tình trạng---</form:option>
+                                                            <form:options items="${status}"></form:options>
+                                                        </form:select>
                                                 </div>
 
                                             </div>
