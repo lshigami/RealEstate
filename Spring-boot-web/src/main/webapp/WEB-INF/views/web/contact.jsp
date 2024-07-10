@@ -120,7 +120,7 @@
                             </div>
                             <div class="col-12 col-md-4 text-center">
                                 <div class="icon-footer">
-                                    <img src="https://bizweb.dktcdn.net/100/328/362/themes/894751/assets/place_phone.png?1676257083798 alt="">
+                                    <img src="https://bizweb.dktcdn.net/100/328/362/themes/894751/assets/place_phone.png?1676257083798" />
                                 </div>
                                 <div class="content-center-footer">
                                     <p class="mb-1 mt-3">Hotline</p>
@@ -202,10 +202,17 @@
 <script>
     $('#addCustomer').click(function (e) {
         e.preventDefault();
-        var fullname = $('input[name="fullName"]').val();
-        var email = $('input[name="email"]').val();
-        var phone = $('input[name="customerPhone"]').val();
-        var demand = $('input[name="note"]').val();
+        var fullname = $('input[name="fullName"]').val().trim();
+        var email = $('input[name="email"]').val().trim();
+        var phone = $('input[name="customerPhone"]').val().trim();
+        var demand = $('input[name="note"]').val().trim();
+
+        // Check if fullname or phone is empty
+        if (fullname === '' || phone === '') {
+            alert("Bạn cần nhập đầy đủ họ tên và số điện thoại");
+            return;
+        }
+
         var formData = {
             fullName: fullname,
             email: email,

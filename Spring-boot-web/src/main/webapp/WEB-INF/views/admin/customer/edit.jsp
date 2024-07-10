@@ -77,13 +77,19 @@
                                 <div class="form-group">
                                     <label class="col-xs-3">Tình trạng</label>
                                     <div class="col-xs-9">
-                                        <form:select class="form-control" path="status">
-                                            <form:option value="">---Chọn Tình Trạng---</form:option>
-                                            <form:options items="${statuss}"></form:options>
+                                            <%--                                        <form:select class="form-control" path="status">--%>
+                                            <%--                                            <c:if test="${not empty statuss}">--%>
+                                            <%--                                                <form:options items="${statuss}"></form:options>--%>
+                                            <%--                                            </c:if>--%>
+                                            <%--                                            <c:if test="${empty statuss}">--%>
+                                            <%--                                                <form:option value="Chưa xử lý">Chưa xử lý</form:option>--%>
+                                            <%--                                            </c:if>--%>
+                                            <%--                                        </form:select>--%>
+
+                                        <form:select class="form-control" path="status" id="status">
+                                            <form:options items="${statuss}"/>
                                         </form:select>
                                     </div>
-
-
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-3"></label>
@@ -314,6 +320,7 @@
         window.location.href="/admin/customer-list";
     });
 
+    // Kiểm tra các điều kiện cần thiết (ví dụ: tên và số điện thoại không được trống)
     $('#btnAddOrUpdateBuilding').click(function () {
         var data = {};
 
@@ -323,12 +330,18 @@
         });
         if(data['customerPhone'] != '' && data['fullName'] != '')
         {
+            // Gán giá trị mặc định cho tình trạng nếu chưa có giá trị được chọn
+            if (!data['status']) {
+                data['status'] = 'Chưa xử lý';
+            }
+
             addOrUpdateBuilding(data);
         }
 
         else
         {
-            window.location.href="<c:url value = "/admin/customer-list?fullNameAndPhoneNumber=require"/>";
+            <%--window.location.href="<c:url value = "/admin/customer-list?fullNameAndPhoneNumber=require"/>";--%>
+            alert("Bạn cần nhập tên và số điện thoại");
         }
     });
 
@@ -343,7 +356,7 @@
             success: function (response)
             {
                 window.location.href="<c:url value = '/admin/customer-list?message=success'/>";
-                alert("Thêm khách hàng thành công!!!");
+                alert("Thêm/ Sửa khách hàng thành công!!!");
             },
 
             error: function (response) {

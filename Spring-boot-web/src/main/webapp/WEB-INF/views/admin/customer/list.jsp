@@ -95,11 +95,11 @@
                                                     </security:authorize>
                                                 </div>
                                                 <div class="col-sm-4">
-                                                        <label class="name">Tình trạng</label>
-                                                        <form:select class="form-control" path="status">
-                                                            <form:option value="">---Chọn tình trạng---</form:option>
-                                                            <form:options items="${status}"></form:options>
-                                                        </form:select>
+                                                    <label class="name">Tình trạng</label>
+                                                    <form:select class="form-control" path="status">
+                                                        <form:option value="">---Chọn tình trạng---</form:option>
+                                                        <form:options items="${status}"></form:options>
+                                                    </form:select>
                                                 </div>
 
                                             </div>
@@ -301,7 +301,7 @@
         if(data['staffs'] != '')
         {
             assingment(data);
-            console.log("ok");
+            alert("Giao khách hàng thành công");
         }
 
         else
@@ -359,6 +359,7 @@
             data: JSON.stringify(data),
             contentType: "application/json",
             success: function () {
+                alert('Bạn đã xóa thành công!');
                 location.reload();
             },
 
